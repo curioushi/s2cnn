@@ -26,7 +26,7 @@ RUN conda install cupy -y
 RUN git clone https://github.com/AMLab-Amsterdam/lie_learn.git
 RUN cd lie_learn && python setup.py install
 RUN pip install pynvrtc
-RUN git clone https://github.com/jonas-koehler/s2cnn
+RUN git clone -b dev https://github.com/curioushi/s2cnn.git
 RUN cd s2cnn && python setup.py install
 # RUN pip install pynvrtc joblib
 # RUN conda install -c anaconda cython requests scipy -y
