@@ -1,0 +1,33 @@
+#!/bin/bash
+CURRENT_DIR=$(dirname $(realpath $0))
+PROJECT_DIR=$(dirname $CURRENT_DIR)
+CONTAINER_NAME=s2cnn
+IMAGE_NAME=curioushi/s2cnn:latest
+
+if [ "$(docker ps -aq -f name=$CONTAINER_NAME)" ]; then
+    docker start $CONTAINER_NAME
+    docker exec -it $CONTAINER_NAME /bin/bash
+else
+    echo $PROJECT_DIR
+    docker run -it \
+        --gpus '"device=0"' \
+        --shm-size 8G \
+        --rm \
+        --workdir=$PROJECT_DIR \
+        --volume="$PROJECT_DIR:$PROJECT_DIR" \
+        --volume="/etc/group:/etc/group:ro" \
+        --volume="/etc/passwd:/etc/passwd:ro" \
+        --volume="/etc/shadow:/etc/shadow:ro" \
+        --volume="/etc/sudoers.d:/etc/sudoers.d:ro" \
+        --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" \
+        --volume="$HOME/.cache:$HOME/.cache:rw" \
+        --volume="$HOME/.oh-my-zsh:$HOME/.oh-my-zsh:rw" \
+        --volume="$HOME/.zshrc:$HOME/.zshrc:rw" \
+        --volume="$HOME/.config:$HOME/.config:rw" \
+        --volume="$HOME/.Xauthority:$HOME/.Xauthority:rw" \
+        --name $CONTAINER_NAME \
+        $IMAGE_NAME \
+        bash
+        #--user=$(id -u $USER):$(id -g $USER) \
+        # --volume="/home/$USER:/home/$USER" \
+fi
