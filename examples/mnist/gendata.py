@@ -207,6 +207,7 @@ def main():
                         dest='no_rotate_test', action='store_true')
 
     args = parser.parse_args()
+    # import pdb; pdb.set_trace()
 
     print("getting mnist data")
     trainset = datasets.MNIST(root=args.mnist_data_folder, train=True, download=True)
@@ -251,6 +252,7 @@ def main():
             print("\r{0}/{1}".format(current, n_signals), end="")
         print("")
         dataset[label] = {
+            'raw_images': data['images'],
             'images': projections,
             'labels': data['labels']
         }
