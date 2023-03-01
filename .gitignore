@@ -4,3 +4,5 @@ __pycache__
 build
 dist
 *cache
+examples/mnist/MNIST_data
+examples/mnist/s2_mnist.gz
